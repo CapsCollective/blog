@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+$color-scheme-auto: true;
+$color-scheme-dark: true;
+
+@import "minima/skins/auto";
+
+$background-color: #A6E2D1;
+$brand-color: #000000;
+$link-color: #DE5349;
+
+$link-base-color: $link-color;
+$link-visited-color: $link-color;
+$link-hover-color: $link-color;
+
+$border-color-01: none;
+$border-color-02: $brand-color;
+$border-color-03: $brand-color;
+
+.indent {
+	padding-left: 20px;
+}
+
+.site-nav {
+	margin-top: 10px;
+}
+
+.page-link {
+	color: $link-color !important;
+	font-size: 1.2em;
+}
+
+.social-links {
+	text-align: center;
+}
+
+.svg-icon {
+	width: 1.5em !important;
+	height: 1.5em !important;
+	color: $brand-color;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.svg-icon:hover {
+	color: $link-color;
+}
+
+.site-header {
+	margin-top: 10px;
+	border-top: 0px !important;
+	border-bottom: 0px !important;
+}
+
+.site-footer {
+	text-align: center;
+  border-top: 0px !important;
+}
+
+.p-author {
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: Arial Rounded MT;
+	font-weight: bold;
+	src: url('../fonts/ArialRoundedBold.ttf');
+}
+
+$accent-font-family: Arial Rounded MT;
+
+h1, h2, .accent-font {
+	font-family: $accent-font-family;
+}
+
+.divider {
+	margin-bottom: 10px;
+	width: 100%;
+	background-color: black;
+	height: 2px;
+}

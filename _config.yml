@@ -33,8 +33,14 @@ plugins:
   - jekyll-feed
 
 minima:
+  skin: caps
   social_links:
+    - { platform: email,  user_url: "mailto:devs@capscollective.com" }
+    - { platform: site,  user_url: "https://capscollective.com" }
+    - { platform: itch, user_url: "https://capscollective.itch.io" }
+    - { platform: discord, user_url: "https://discord.gg/Nnqd4YSdXN" }
     - { platform: github,  user_url: "https://github.com/CapsCollective" }
+    - { platform: bluesky, user_url: "https://bsky.app/profile/capscollective.com" }
     - { platform: mastodon, user_url: "https://mastodon.social/@capscollective" }
     - { platform: twitter, user_url: "https://twitter.com/Caps_Collective" }
     - { platform: linkedin, user_url: "https://www.linkedin.com/company/capscollective" }

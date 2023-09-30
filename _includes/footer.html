@@ -3,28 +3,16 @@
 
   <div class="wrapper">
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col">
-      {%- if site.author %}
-        <ul class="contact-list">
-          {% if site.author.name -%}
-            <li class="p-name">{{ site.author.name | escape }}</li>
-          {% endif -%}
-          {% if site.author.email -%}
-            <li><a class="u-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
-          {%- endif %}
-        </ul>
-      {%- endif %}
-      </div>
-      <div class="footer-col">
-        <p>{{ site.description | escape }}</p>
-      </div>
-    </div>
+    <div class="divider"></div>
+    <p>
+      <a href="https://capscollective.com">Caps Collective</a> is an open-source, indie dev collective based in Sydney, Australia.
+      <br> To follow, contact, and connect with us, please check us out at these links:
+    </p>
 
     <div class="social-links">
-	{%- for entry in site.minima.social_links -%}
-		{%- include social-item.html item = entry -%}
-	{%- endfor -%}
+  	{%- for entry in site.minima.social_links -%}
+  		{%- include social-item.html item = entry -%}
+  	{%- endfor -%}
     </div>
 
   </div>
