@@ -34,15 +34,14 @@ $border-color-03: $brand-color;
 	text-align: center;
 }
 
-.svg-icon {
-	width: 1.5em !important;
-	height: 1.5em !important;
+.social-icon {
+	font-size: 1.3em;
 	color: $brand-color;
 	margin-left: 5px;
 	margin-right: 5px;
 }
 
-.svg-icon:hover {
+.social-icon:hover {
 	color: $link-color;
 }
 

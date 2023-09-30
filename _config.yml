@@ -35,15 +35,15 @@ plugins:
 minima:
   skin: caps
   social_links:
-    - { platform: email,  user_url: "mailto:devs@capscollective.com" }
-    - { platform: site,  user_url: "https://capscollective.com" }
-    - { platform: itch, user_url: "https://capscollective.itch.io" }
-    - { platform: discord, user_url: "https://discord.gg/Nnqd4YSdXN" }
-    - { platform: github,  user_url: "https://github.com/CapsCollective" }
-    - { platform: bluesky, user_url: "https://bsky.app/profile/capscollective.com" }
-    - { platform: mastodon, user_url: "https://mastodon.social/@capscollective" }
-    - { platform: twitter, user_url: "https://twitter.com/Caps_Collective" }
-    - { platform: linkedin, user_url: "https://www.linkedin.com/company/capscollective" }
+    - { platform: Email,  user_url: "mailto:devs@capscollective.com", icon_class: "fas fa-envelope"}
+    - { platform: Site,  user_url: "https://capscollective.com", icon_class: "fas fa-globe" }
+    - { platform: itch.io, user_url: "https://capscollective.itch.io", icon_class: "fab fa-itch-io" }
+    - { platform: Discord, user_url: "https://discord.gg/Nnqd4YSdXN", icon_class: "fab fa-discord" }
+    - { platform: GitHub,  user_url: "https://github.com/CapsCollective", icon_class: "fab fa-github" }
+    - { platform: Bluesky, user_url: "https://bsky.app/profile/capscollective.com", icon_class: "fa fa-cloud" }
+    - { platform: Mastodon, user_url: "https://mastodon.social/@capscollective", icon_class: "fab fa-mastodon" }
+    - { platform: Twitter, user_url: "https://twitter.com/Caps_Collective", icon_class: "fab fa-twitter" }
+    - { platform: LinkedIn, user_url: "https://www.linkedin.com/company/capscollective", icon_class: "fab fa-linkedin-in" }
 
 # Exclude from processing.
 # The following items will not be processed, by default.
