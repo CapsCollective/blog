@@ -4,5 +4,3 @@
 
 layout: home
 ---
-
-### Welcome to the official blog for Caps Collective!
