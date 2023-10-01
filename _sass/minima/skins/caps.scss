@@ -17,6 +17,15 @@ $border-color-01: none;
 $border-color-02: $brand-color;
 $border-color-03: $brand-color;
 
+.style-text {
+	font-family: Arial Rounded MT;
+	src: url('../fonts/ArialRoundedBold.ttf');
+}
+
+.bold {
+	font-weight: bold;
+}
+
 .indent {
 	padding-left: 20px;
 }
@@ -51,9 +60,17 @@ $border-color-03: $brand-color;
 	border-bottom: 0px !important;
 }
 
+.page-links {
+	display: inline-block;
+	position: static;
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
 .site-footer {
 	text-align: center;
-  border-top: 0px !important;
+  	border-top: 0px !important;
 }
 
 .p-author {
