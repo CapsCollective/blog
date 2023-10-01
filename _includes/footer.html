@@ -10,9 +10,12 @@
     </p>
 
     <div class="social-links">
-  	{%- for entry in site.minima.social_links -%}
-  		{%- include social-item.html item = entry -%}
-  	{%- endfor -%}
+      <a href="" onclick="openEmail(); return false;" style="text-decoration:none">
+        <i class="fas fa-envelope social-icon"></i>
+      </a>
+    	{%- for entry in site.minima.social_links -%}
+    		{%- include social-item.html item = entry -%}
+    	{%- endfor -%}
     </div>
 
   </div>

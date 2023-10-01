@@ -35,7 +35,6 @@ plugins:
 minima:
   skin: caps
   social_links:
-    - { platform: Email,  user_url: "mailto:devs@capscollective.com", icon_class: "fas fa-envelope"}
     - { platform: Site,  user_url: "https://capscollective.com", icon_class: "fas fa-globe" }
     - { platform: itch.io, user_url: "https://capscollective.itch.io", icon_class: "fab fa-itch-io" }
     - { platform: Discord, user_url: "https://discord.gg/Nnqd4YSdXN", icon_class: "fab fa-discord" }
