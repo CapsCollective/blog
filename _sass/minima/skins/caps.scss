@@ -58,6 +58,7 @@ $border-color-03: $brand-color;
 	margin-top: 10px;
 	border-top: 0px !important;
 	border-bottom: 0px !important;
+	margin-bottom: 10px;
 }
 
 .page-links {
@@ -69,6 +70,8 @@ $border-color-03: $brand-color;
 }
 
 .site-footer {
+	padding: 0px !important;
+	padding-bottom: 20px !important;
 	text-align: center;
   	border-top: 0px !important;
 }
@@ -89,9 +92,10 @@ h1, h2, .accent-font {
 	font-family: $accent-font-family;
 }
 
-.divider {
-	margin-bottom: 10px;
-	width: 100%;
-	background-color: black;
-	height: 2px;
+.paper-sheet {
+	background-color: #fdfdfd;
+	@media screen and (min-width: 800px) {
+		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+		border-radius: 5px;
+	 }
 }
