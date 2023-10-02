@@ -4,7 +4,7 @@ layout: base
 
 <div class="home">
 
-  <h3 class="style-text">Welcome to the official blog site for Caps Collective!</h3>
+  <h3 class="style-text caps-text">Welcome to the official blog site for Caps Collective!</h3>
   <br>
 
   {{ content }}
@@ -17,8 +17,8 @@ layout: base
 
 
   {%- if posts.size > 0 -%}
-    <h2 class="post-list-heading">Latest Posts</h2>
-    <ul class="post-list indent">
+    <h2 class="post-list-heading caps-text">Latest Posts</h2>
+    <ul class="post-list indent caps-text">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       {%- for post in posts -%}
       <li>

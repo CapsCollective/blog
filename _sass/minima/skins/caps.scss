@@ -1,11 +1,11 @@
 @charset "utf-8";
 
 $color-scheme-auto: true;
-$color-scheme-dark: true;
+$color-scheme-dark: false;
 
 @import "minima/skins/auto";
 
-$background-color: #A6E2D1;
+$caps-color: #A6E2D1;
 $brand-color: #000000;
 $link-color: #DE5349;
 
@@ -13,9 +13,17 @@ $link-base-color: $link-color;
 $link-visited-color: $link-color;
 $link-hover-color: $link-color;
 
-$border-color-01: none;
-$border-color-02: $brand-color;
-$border-color-03: $brand-color;
+.body {
+	background-color: $caps-color;
+}
+
+.caps-text {
+	color: $brand-color;
+}
+
+.text-element {
+	color: $text-color !important;
+}
 
 .style-text {
 	font-family: Arial Rounded MT;
@@ -93,7 +101,7 @@ h1, h2, .accent-font {
 }
 
 .paper-sheet {
-	background-color: #fdfdfd;
+	background-color: $background-color;
 	@media screen and (min-width: 800px) {
 		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 		border-radius: 5px;
