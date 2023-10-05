@@ -6,7 +6,12 @@ layout: base
   <br>
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <h2 itemprop="name headline">{{ page.title | escape }}</h2>
+    {%- for category in page.categories -%}
+      <code class="code-tag">{{ category }}</code>&nbsp;
+    {%- endfor -%}
+    <br>
+    <br>
     <p class="post-meta text-element">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
@@ -24,6 +29,14 @@ layout: base
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name"><a href="{{ page.author-link }}">{{ author }}</a></span></span>
             {%- if forloop.last == false %}, {% endif -%}
+          {%- if page.social_links -%}
+          &nbsp;• 
+            {%- for entry in page.social_links -%}
+              <a href="{{ entry.user_url }}" target="_blank" title="{{ entry.title | default: entry.platform }}" style="text-decoration:none">
+                <i class="{{ entry.icon_class }} social-icon-sm"></i>
+              </a>
+            {%- endfor -%}
+          {%- endif -%}
         {% endfor %}
       {%- endif -%}</p>
   </header>
