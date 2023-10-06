@@ -85,7 +85,7 @@ $link-hover-color: $link-color;
 	position: static;
     float: right;
     margin-right: 10px;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 
 .site-footer {
@@ -118,6 +118,14 @@ h1, h2, .accent-font {
 	font-size: 12px;
 }
 
+.code-tags {
+	display: inline;
+}
+
+.spacer {
+	padding-top: 10px;
+}
+
 .code-tag-index {
 	color: $brand-color;
 	background-color: $caps-color;
@@ -130,7 +138,15 @@ h1, h2, .accent-font {
 	@media screen and (min-width: 800px) {
 		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 		border-radius: 5px;
-	 }
+	}
+}
+
+.page-content {
+  padding-bottom: 30px;
+  padding-top: 0px !important;
+  @media screen and (min-width: 800px) {
+		padding-top: 10px !important;
+	}
 }
 
 .post-link {

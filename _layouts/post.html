@@ -7,11 +7,12 @@ layout: base
 
   <header class="post-header">
     <h2 itemprop="name headline">{{ page.title | escape }}</h2>
+    <aside class="code-tags">
     {%- for category in page.categories -%}
       <code class="code-tag">{{ category }}</code>&nbsp;
     {%- endfor -%}
-    <br>
-    <br>
+    </aside>
+    <div class="spacer"></div>
     <p class="post-meta text-element">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
