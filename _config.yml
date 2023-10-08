@@ -42,6 +42,7 @@ minima:
     - { platform: Bluesky, user_url: "https://bsky.app/profile/capscollective.com", icon_class: "fa fa-cloud" }
     - { platform: Mastodon, user_url: "https://mastodon.social/@capscollective", icon_class: "fab fa-mastodon" }
     - { platform: Twitter, user_url: "https://twitter.com/Caps_Collective", icon_class: "fab fa-twitter" }
+    - { platform: YouTube, user_url: "https://www.youtube.com/@CapsCollective", icon_class: "fab fa-youtube" }
     - { platform: LinkedIn, user_url: "https://www.linkedin.com/company/capscollective", icon_class: "fab fa-linkedin-in" }
 
 # Exclude from processing.
