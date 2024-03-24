@@ -10,6 +10,8 @@ social_links:
     - { platform: Mastodon, user_url: "https://aus.social/@jonjon", icon_class: "fab fa-mastodon" }
     - { platform: Twitter, user_url: "https://twitter.com/JonJonRespawned", icon_class: "fab fa-twitter" }
     - { platform: LinkedIn, user_url: "https://www.linkedin.com/in/jonjondev", icon_class: "fab fa-linkedin-in" }
+image: /assets/img/godot-github-actions-pipeline/link_preview.png
+description: Having recently kicked off a number of new projects in Godot, I share the workflows and experiences with setting up our GitHub Actions build and publishing pipelines.
 ---
 
 [caps-site]: https://capscollective.com
