@@ -1,0 +1,82 @@
+<html>
+<body>
+    <h1>Bluesky Blog Comments Example</h1>
+	<div id="social-section">
+  	</div>
+	<script>
+function httpGetAsJsonAsync(url, callback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            var responseJson = JSON.parse(xmlHttp.responseText);
+            if (typeof(responseJson) == 'undefined') {
+                return;
+            }
+            console.log(responseJson)
+            callback(responseJson);
+        }
+    }
+    xmlHttp.open("GET", url, true);
+    xmlHttp.send(null);
+}
+
+function getPostLinkFromUri(uri) {
+  return "https://bsky.app/profile/" + uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+}
+
+function createHtmlForReplies(replies) {
+    var htmlText = ""
+    for (const replyIdx in replies) {
+        var reply = replies[replyIdx];
+        var replyPost = reply.post;
+        var postLink = getPostLinkFromUri(replyPost.uri);
+        htmlText += `
+            <div style="margin-left:20px;">
+                <p>
+                    <img src="${replyPost.author.avatar}" style="height:20px;width:20px;">
+                    ${replyPost.author.displayName}
+                    <a href="https://bsky.app/profile/${replyPost.author.did}">@${replyPost.author.handle}</a>
+                </p>
+                <p>${replyPost.record.text}</p>
+                <p>
+                    <a href="${postLink}">${replyPost.replyCount} replies</a>
+                    <a href="${postLink}">${replyPost.repostCount + replyPost.quoteCount} reposts</a>
+                    <a href="${postLink}">${replyPost.likeCount} likes</a></p>
+                <div>${createHtmlForReplies(reply.replies)}</div>
+            </div>`
+    }
+    return htmlText;
+}
+
+var atPostUri = "at://did:plc:pnjutx4jmndm3y52p22wxkfi/app.bsky.feed.post/3khqjq7knia24";
+httpGetAsJsonAsync(
+    "https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=" + atPostUri,
+    function(responseJson) {
+    var thread = responseJson["thread"];
+    var threadPost = thread["post"];
+    var postLink = getPostLinkFromUri(threadPost.uri);
+
+    var threadReplies = thread.replies;
+    document.getElementById("social-section").innerHTML = `
+        <h3>
+            <a href="${postLink}">
+                ${threadPost.replyCount} replies
+            </a>
+            <a href="${postLink}">
+                ${threadPost.repostCount + threadPost.quoteCount} reposts
+            </a>
+            <a href="${postLink}">
+                ${threadPost.likeCount} likes
+            </a>
+        </h3>
+
+        <h3>Comments</h3>
+        <p>Reply on Bluesky <a href="${postLink}">here</a> to join the conversation.</p>
+
+        <div>
+          ${threadReplies.length > 0 ? createHtmlForReplies(threadReplies) : '<p>No comments to display</p>'}
+        </div>`
+});
+	</script>
+</body>
+</html>
