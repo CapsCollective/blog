@@ -6,9 +6,8 @@ categories: c++ packaging buildsystem siege
 author: Jonathan Moallem
 author-link: http://jonjondev.com
 social_links:
-    - { platform: Bluesky, user_url: "https://bsky.app/profile/jonjondev.com", icon_class: "fa fa-cloud" }
+    - { platform: Bluesky, user_url: "https://bsky.app/profile/jonjondev.com", icon_class: "fab fa-bluesky" }
     - { platform: Mastodon, user_url: "https://aus.social/@jonjon", icon_class: "fab fa-mastodon" }
-    - { platform: Twitter, user_url: "https://twitter.com/JonJonRespawned", icon_class: "fab fa-twitter" }
     - { platform: LinkedIn, user_url: "https://www.linkedin.com/in/jonjondev", icon_class: "fab fa-linkedin-in" }
 image: /assets/img/siege-asset-packing-system/link_preview.png
 description: After implementing a packing system for our custom, C++ game engine, Siege, I go in-depth on some of the design decisions, and unforeseen hazards encountered along the way.
