@@ -50,12 +50,15 @@ layout: base
   <div id="social-section">
   </div>
   <script>
+    function getPostLinkFromUri(uri) {
+      return "https://bsky.app/profile/" + uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+    }
     function createHtmlForReplies(replies) {
       var htmlText = ""
       for (const replyIdx in replies) {
         var reply = replies[replyIdx];
         var replyPost = reply.post;
-        var postLink = "https://bsky.app/profile/" + replyPost.uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+        var postLink = getPostLinkFromUri(replyPost.uri);
         htmlText += `
         <div class="comment-block">
           <span class="comment-title"><img src="${replyPost.author.avatar}" class="comment-avatar"> ${replyPost.author.displayName} <a href="https://bsky.app/profile/${replyPost.author.did}" target="_blank">@${replyPost.author.handle}</a></span>
@@ -75,7 +78,7 @@ layout: base
     httpGetAsJsonAsync("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri={{ page.at_post_uri }}", function(responseJson) {
         var thread = responseJson["thread"];
         var threadPost = thread["post"];
-        var postLink = "https://bsky.app/profile/" + threadPost.uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+        var postLink = getPostLinkFromUri(threadPost.uri);
 
         var threadReplies = thread.replies;
         document.getElementById("social-section").innerHTML = `
