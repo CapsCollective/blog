@@ -46,8 +46,49 @@ layout: base
     {{ content }}
   </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
+  {%- if page.at_post_uri -%}
+  <div id="social-section">
+  </div>
+  <script>
+    function createHtmlForReplies(replies) {
+      var htmlText = ""
+      for (const replyIdx in replies) {
+        var reply = replies[replyIdx];
+        var replyPost = reply.post;
+        var postLink = "https://bsky.app/profile/" + replyPost.uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+        htmlText += `
+        <div class="comment-block">
+          <span class="comment-title"><img src="${replyPost.author.avatar}" class="comment-avatar"> ${replyPost.author.displayName} <a href="https://bsky.app/profile/${replyPost.author.did}" target="_blank">@${replyPost.author.handle}</a></span>
+          <br>
+          <span class="comment-text">${replyPost.record.text}</span>
+          <br>
+          <div class="comment-links">
+            <span><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a> ${replyPost.replyCount} &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet comment-repost-link"></i></a> ${replyPost.repostCount + replyPost.quoteCount} &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart comment-like-link"></i></a> ${replyPost.likeCount}</span>
+          </div>
+          <div class="comment-reply">
+            ${createHtmlForReplies(reply.replies)}
+          </div>
+        </div>`
+      }
+      return htmlText;
+    }
+    httpGetAsJsonAsync("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri={{ page.at_post_uri }}", function(responseJson) {
+        var thread = responseJson["thread"];
+        var threadPost = thread["post"];
+        var postLink = "https://bsky.app/profile/" + threadPost.uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+
+        var threadReplies = thread.replies;
+        document.getElementById("social-section").innerHTML = `
+        <h3><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a>&nbsp; ${threadPost.replyCount} replies &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet"></i></a>&nbsp; ${threadPost.repostCount + threadPost.quoteCount} reposts &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart"></i></a>&nbsp; ${threadPost.likeCount} likes</h3>
+
+        <h3><b>Comments</b></h3>
+        <p class="comment-text"><i>Reply on Bluesky <a href="${postLink}" target="_blank">here</a> to join the conversation.</i></p>
+
+        <div class="comment-section">
+          ${threadReplies.length > 0 ? createHtmlForReplies(threadReplies) : '<p class="comment-text">No comments to display</p>'}
+        </div>`
+      });
+  </script>
   {%- endif -%}
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>

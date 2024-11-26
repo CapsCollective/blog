@@ -11,6 +11,7 @@ social_links:
     - { platform: LinkedIn, user_url: "https://www.linkedin.com/in/jonjondev", icon_class: "fab fa-linkedin-in" }
 image: /assets/img/siege-asset-packing-system/link_preview.png
 description: After implementing a packing system for our custom, C++ game engine, Siege, I go in-depth on some of the design decisions, and unforeseen hazards encountered along the way.
+at_post_uri: "at://did:plc:pnjutx4jmndm3y52p22wxkfi/app.bsky.feed.post/3koizehgdn72i"
 ---
 
 [caps-github]: https://github.com/CapsCollective

@@ -11,6 +11,7 @@ social_links:
     - { platform: LinkedIn, user_url: "https://www.linkedin.com/in/jonjondev", icon_class: "fab fa-linkedin-in" }
 image: /assets/img/godot-github-actions-pipeline/link_preview.png
 description: Having recently kicked off a number of new projects in Godot, I share the workflows and experiences with setting up our GitHub Actions build and publishing pipelines.
+at_post_uri: "at://did:plc:pnjutx4jmndm3y52p22wxkfi/app.bsky.feed.post/3khqjq7knia24"
 ---
 
 [caps-site]: https://capscollective.com
