@@ -18,7 +18,7 @@ When we put together this blog site, we had the goal of owning the site tech ([J
 
 After seeing [Bluesky developer, Emily Liu's blog post](https://emilyliu.me/blog/open-network) yesterday in which the site comment sections are populated from the replies to various Bluesky posts, I had a certain brain worm itching at me to add a similar thing for this site.
 
-![Siege render example application](/blog/assets/img/bluesky-blog-comments/blog_comments_screenshot.png)
+![Caps Collective blog comments screenshot](/blog/assets/img/bluesky-blog-comments/blog_comments_screenshot.png)
 
 There's a lot of good info already out there on how to do things like this if you're doing the whole modern webdev thing of layers on layers with libraries or pulling in remote content. You can go check out [Emily's followup post](https://emilyliu.me/blog/comments) for some snippets and an NPM package, or a similar post from the [Bluesky client, Graysky's blog](https://graysky.app/blog/2024-02-05-adding-blog-comments) with a bit more of technical overview in Typescript.
 
@@ -99,9 +99,35 @@ ___Side note__: I've set this site up, as well as the example such that if the r
 ### What's missing?
 
 In the list of things that the comments section of this site __does not support__, the main ones would be:
-- Handling replies containing images and GIFs
-- Displaying posts with rich text (this is done on the [Bluesky API via facets](https://docs.bsky.app/docs/advanced-guides/post-richtext))
+- Handling replies containing images, GIFs and links
+- ~~Displaying posts with rich text (this is done on the [Bluesky API via facets](https://docs.bsky.app/docs/advanced-guides/post-richtext))~~ [see update 27/11/2024]
 - Hiding users blocked by our team's accounts or on a shared block list
 - Sifting posts replied to by the team's accounts to the top
 
 I am rather pleased with the results of my tinkering and I'm hoping to keep this system going for the foreseeable future. So far I am very impressed with the progress of Bluesky as a platform; the social life on there has really taken off this month and the tech behind it seems to be solid. I think our team will aim to keep posting there in the future with (hopefully) more _actual game-related content_.
+
+---
+
+#### Adding Support for Facets (update 27/11/2024)
+
+I managed to get post links/tags/mentions working without using the [ATProto library](https://www.npmjs.com/package/@atproto/api), but as mentioned above, it was not a trivial task. The [docs mention](https://docs.bsky.app/docs/advanced-guides/post-richtext) that the code points in the facets refer to UTF-8, and Javascript strings are UTF-16.
+
+The facets are essentially lengths of code points (characters) in UTF-8 specified with a type and extra display data. This may be used for rich text without the need for BBCode, Markdown, or HTML formatting. For now, the Bluesky API provides facets for user handle mentions, hashtags, and URLs.
+
+![Caps Collective blog comments facets screenshot](/blog/assets/img/bluesky-blog-comments/blog_comments_facets_screenshot.png)
+
+Encoding and decoding Javascript strings to and from UTF-8 can be done as so, noting that :
+
+{% highlight javascript %}
+const textEncoder = new TextEncoder();
+const utf8Decoder = new TextDecoder();
+const utf8Text = new Uint8Array(record.text.length * 3);
+textEncoder.encodeInto(record.text, utf8Text);
+var result = utf8Decoder.decode(utf8Text)
+{% endhighlight %}
+
+_Note the buffer allocation of three times the size of the original string; this is [recommended by Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder/encodeInto) to ensure that conversion is guaranteed._
+
+The work at this point just becomes a matter of finding the start and end points for each facet and assigning them correctly to their various links depending on the type. This information can be found under the post record in an array of facets.
+
+I have also updated [the example HTML](/blog/assets/img/bluesky-blog-comments/bluesky_blog_comments_example.html) to include the code for detecting and applying transformations for facets within the post reply texts.
