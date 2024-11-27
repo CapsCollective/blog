@@ -53,17 +53,61 @@ layout: base
     function getPostLinkFromUri(uri) {
       return "https://bsky.app/profile/" + uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
     }
+    function createHtmlTextForRecord(record) {
+      var htmlText = `<span>`
+
+      const textEncoder = new TextEncoder();
+      const utf8Decoder = new TextDecoder();
+      const utf8Text = new Uint8Array(record.text.length * 3);
+      textEncoder.encodeInto(record.text, utf8Text);
+
+      var charIdx = 0;
+      for (const facetIdx in record.facets) {
+          const facet = record.facets[facetIdx];
+          const facetFeature = facet.features[0];
+          const facetType = facetFeature.$type;
+
+          var facetLink = "#";
+          if (facetType == "app.bsky.richtext.facet#tag") {
+              facetLink = `https://bsky.app/hashtag/${facetFeature.tag}`;
+          }
+          else if (facetType == "app.bsky.richtext.facet#link") {
+              facetLink = facetFeature.uri;
+          }
+          else if (facetType == "app.bsky.richtext.facet#mention") {
+              facetLink = `https://bsky.app/profile/${facetFeature.did}`;
+          }
+
+          if (charIdx < facet.index.byteStart) {
+              const preFacetText = utf8Text.slice(charIdx, facet.index.byteStart);
+              htmlText += utf8Decoder.decode(preFacetText)
+          }
+
+          const facetText = utf8Text.slice(facet.index.byteStart, facet.index.byteEnd);
+          htmlText += `<a class="comment-facet-link" href="${facetLink}" target="_blank">` + utf8Decoder.decode(facetText) + '</a>';
+
+          charIdx = facet.index.byteEnd;
+      }
+
+      if (charIdx < utf8Text.length) {
+          const postFacetText = utf8Text.slice(charIdx, utf8Text.length);
+          htmlText += utf8Decoder.decode(postFacetText);
+      }
+
+      return htmlText + '</span>';
+    }
     function createHtmlForReplies(replies) {
       var htmlText = ""
       for (const replyIdx in replies) {
         var reply = replies[replyIdx];
         var replyPost = reply.post;
         var postLink = getPostLinkFromUri(replyPost.uri);
+        var postText = createHtmlTextForRecord(replyPost.record);
         htmlText += `
         <div class="comment-block">
           <span class="comment-title"><img src="${replyPost.author.avatar}" class="comment-avatar"> ${replyPost.author.displayName} <a href="https://bsky.app/profile/${replyPost.author.did}" target="_blank">@${replyPost.author.handle}</a></span>
           <br>
-          <span class="comment-text">${replyPost.record.text}</span>
+          <span class="comment-text">${postText}</span>
           <br>
           <div class="comment-links">
             <span><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a> ${replyPost.replyCount} &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet comment-repost-link"></i></a> ${replyPost.repostCount + replyPost.quoteCount} &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart comment-like-link"></i></a> ${replyPost.likeCount}</span>

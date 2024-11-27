@@ -24,12 +24,57 @@ function getPostLinkFromUri(uri) {
   return "https://bsky.app/profile/" + uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
 }
 
+function createHtmlTextForRecord(record) {
+    var htmlText = `<span>`
+
+    const textEncoder = new TextEncoder();
+    const utf8Decoder = new TextDecoder();
+    const utf8Text = new Uint8Array(record.text.length * 3);
+    textEncoder.encodeInto(record.text, utf8Text);
+
+    var charIdx = 0;
+    for (const facetIdx in record.facets) {
+        const facet = record.facets[facetIdx];
+        const facetFeature = facet.features[0];
+        const facetType = facetFeature.$type;
+
+        var facetLink = "#";
+        if (facetType == "app.bsky.richtext.facet#tag") {
+            facetLink = `https://bsky.app/hashtag/${facetFeature.tag}`;
+        }
+        else if (facetType == "app.bsky.richtext.facet#link") {
+            facetLink = facetFeature.uri;
+        }
+        else if (facetType == "app.bsky.richtext.facet#mention") {
+            facetLink = `https://bsky.app/profile/${facetFeature.did}`;
+        }
+
+        if (charIdx < facet.index.byteStart) {
+            const preFacetText = utf8Text.slice(charIdx, facet.index.byteStart);
+            htmlText += utf8Decoder.decode(preFacetText)
+        }
+
+        const facetText = utf8Text.slice(facet.index.byteStart, facet.index.byteEnd);
+        htmlText += `<a href="${facetLink}" target="_blank">` + utf8Decoder.decode(facetText) + '</a>';
+
+        charIdx = facet.index.byteEnd;
+    }
+
+    if (charIdx < utf8Text.length) {
+        const postFacetText = utf8Text.slice(charIdx, utf8Text.length);
+        htmlText += utf8Decoder.decode(postFacetText);
+    }
+
+    return htmlText + '</span>';
+}
+
 function createHtmlForReplies(replies) {
     var htmlText = ""
     for (const replyIdx in replies) {
         var reply = replies[replyIdx];
         var replyPost = reply.post;
         var postLink = getPostLinkFromUri(replyPost.uri);
+        var postText = createHtmlTextForRecord(replyPost.record);
         htmlText += `
             <div style="margin-left:20px;">
                 <p>
@@ -37,7 +82,7 @@ function createHtmlForReplies(replies) {
                     ${replyPost.author.displayName}
                     <a href="https://bsky.app/profile/${replyPost.author.did}">@${replyPost.author.handle}</a>
                 </p>
-                <p>${replyPost.record.text}</p>
+                <p>${postText}</p>
                 <p>
                     <a href="${postLink}">${replyPost.replyCount} replies</a>
                     <a href="${postLink}">${replyPost.repostCount + replyPost.quoteCount} reposts</a>
@@ -48,7 +93,7 @@ function createHtmlForReplies(replies) {
     return htmlText;
 }
 
-var atPostUri = "at://did:plc:pnjutx4jmndm3y52p22wxkfi/app.bsky.feed.post/3khqjq7knia24";
+var atPostUri = "at://did:plc:pnjutx4jmndm3y52p22wxkfi/app.bsky.feed.post/3lbthq6yolk2f";
 httpGetAsJsonAsync(
     "https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=" + atPostUri,
     function(responseJson) {
