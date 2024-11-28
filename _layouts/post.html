@@ -106,9 +106,7 @@ layout: base
         htmlText += `
         <div class="comment-block">
           <span class="comment-title"><img src="${replyPost.author.avatar}" class="comment-avatar"> ${replyPost.author.displayName} <a href="https://bsky.app/profile/${replyPost.author.did}" target="_blank">@${replyPost.author.handle}</a></span>
-          <br>
-          <span class="comment-text">${postText}</span>
-          <br>
+          <div class="comment-text">${postText}</div>
           <div class="comment-links">
             <span><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a> ${replyPost.replyCount} &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet comment-repost-link"></i></a> ${replyPost.repostCount + replyPost.quoteCount} &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart comment-like-link"></i></a> ${replyPost.likeCount}</span>
           </div>

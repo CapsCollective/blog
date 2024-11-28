@@ -36,6 +36,7 @@ layout: base
           <a class="post-link style-text" href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
+          <div class="post-description">{{ post.description }}</div>
           {%- for category in post.categories -%}
             <code class="code-tag-index">{{ category }}</code>&nbsp;
           {%- endfor -%}
