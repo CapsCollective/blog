@@ -51,7 +51,10 @@ layout: base
   </div>
   <script>
     function getPostLinkFromUri(uri) {
-      return "https://bsky.app/profile/" + uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/");
+      return `https://bsky.app/profile/${uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/")}`;
+    }
+    function getImageLinkFromBlob(did, blobLink, useThumbnail) {
+      return `https://cdn.bsky.app/img/${useThumbnail ? "feed_thumbnail" : "feed_fullsize"}/plain/${did}/${blobLink}`;
     }
     function createHtmlTextForRecord(record) {
       var htmlText = `<span>`
@@ -99,14 +102,35 @@ layout: base
     function createHtmlForReplies(replies) {
       var htmlText = ""
       for (const replyIdx in replies) {
-        var reply = replies[replyIdx];
-        var replyPost = reply.post;
-        var postLink = getPostLinkFromUri(replyPost.uri);
-        var postText = createHtmlTextForRecord(replyPost.record);
+        const reply = replies[replyIdx];
+        const replyPost = reply.post;
+        const postLink = getPostLinkFromUri(replyPost.uri);
+        const postText = createHtmlTextForRecord(replyPost.record);
+        
+        var embedHtml = "";
+        if (replyPost.embed) {
+          if (replyPost.embed.$type == "app.bsky.embed.external#view") {
+            const postEmbedExternal = replyPost.embed.external;
+            if (postEmbedExternal.uri.includes(".gif?")) {
+              embedHtml += `<img class="comment-image" src="${postEmbedExternal.uri}" title="${postEmbedExternal.title}" alt="${postEmbedExternal.description}">`
+            }
+          }
+          else if (replyPost.embed.$type == "app.bsky.embed.images#view") {
+            const images = replyPost.record.embed.images;
+            for (const imageIdx in images) {
+              const image = images[imageIdx];
+              const thumbnailLink = getImageLinkFromBlob(replyPost.author.did, image.image.ref.$link, true);
+              const fullSizelLink = getImageLinkFromBlob(replyPost.author.did, image.image.ref.$link, false);
+              embedHtml += `<a href="${fullSizelLink}" target="_blank"><img class="comment-image" src="${thumbnailLink}" alt="${image.alt}"></a>`
+            }
+          }
+        }
+
         htmlText += `
         <div class="comment-block">
           <span class="comment-title"><img src="${replyPost.author.avatar}" class="comment-avatar"> ${replyPost.author.displayName} <a href="https://bsky.app/profile/${replyPost.author.did}" target="_blank">@${replyPost.author.handle}</a></span>
           <div class="comment-text">${postText}</div>
+          ${embedHtml}
           <div class="comment-links">
             <span><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a> ${replyPost.replyCount} &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet comment-repost-link"></i></a> ${replyPost.repostCount + replyPost.quoteCount} &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart comment-like-link"></i></a> ${replyPost.likeCount}</span>
           </div>
@@ -118,11 +142,11 @@ layout: base
       return htmlText;
     }
     httpGetAsJsonAsync("https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri={{ page.at_post_uri }}", function(responseJson) {
-        var thread = responseJson["thread"];
-        var threadPost = thread["post"];
-        var postLink = getPostLinkFromUri(threadPost.uri);
+        const thread = responseJson["thread"];
+        const threadPost = thread["post"];
+        const postLink = getPostLinkFromUri(threadPost.uri);
 
-        var threadReplies = thread.replies;
+        const threadReplies = thread.replies;
         document.getElementById("social-section").innerHTML = `
         <h3><a class="comment-link comment-reply-link" href="${postLink}" target="_blank"><i class="fas fa-comment"></i></a>&nbsp; ${threadPost.replyCount} replies &nbsp;&nbsp; <a class="comment-link comment-repost-link" href="${postLink}" target="_blank"><i class="fas fa-retweet"></i></a>&nbsp; ${threadPost.repostCount + threadPost.quoteCount} reposts &nbsp;&nbsp; <a class="comment-link comment-like-link" href="${postLink}" target="_blank"><i class="fas fa-heart"></i></a>&nbsp; ${threadPost.likeCount} likes</h3>
 
