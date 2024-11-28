@@ -99,7 +99,7 @@ ___Side note__: I've set this site up, as well as the example such that if the r
 ### What's missing?
 
 In the list of things that the comments section of this site __does not support__, the main ones would be:
-- Handling replies containing images, GIFs and links
+- ~~Handling replies containing images, GIFs and links~~ [see update 28/11/2024]
 - ~~Displaying posts with rich text (this is done on the [Bluesky API via facets](https://docs.bsky.app/docs/advanced-guides/post-richtext))~~ [see update 27/11/2024]
 - Hiding users blocked by our team's accounts or on a shared block list
 - Sifting posts replied to by the team's accounts to the top
@@ -116,7 +116,7 @@ The facets are essentially lengths of code points (characters) in UTF-8 specifie
 
 ![Caps Collective blog comments facets screenshot](/blog/assets/img/bluesky-blog-comments/blog_comments_facets_screenshot.png)
 
-Encoding and decoding Javascript strings to and from UTF-8 can be done as so, noting that :
+Encoding and decoding Javascript strings to and from UTF-8 can be done as so, noting that:
 
 {% highlight javascript %}
 const textEncoder = new TextEncoder();
@@ -131,3 +131,17 @@ _Note the buffer allocation of three times the size of the original string; this
 The work at this point just becomes a matter of finding the start and end points for each facet and assigning them correctly to their various links depending on the type. This information can be found under the post record in an array of facets.
 
 I have also updated [the example HTML](/blog/assets/img/bluesky-blog-comments/bluesky_blog_comments_example.html) to include the code for detecting and applying transformations for facets within the post reply texts.
+
+---
+
+#### Adding Support for Images (update 28/11/2024)
+
+Because it was gnawing at me (and Mazza successfully baited me), I also added support for image embeds, including the display of GIFs.
+
+![Caps Collective blog comments images screenshot](/blog/assets/img/bluesky-blog-comments/blog_comments_images_screenshot.png)
+
+How this works is explained at length with regard to embed types, blob creation and blob retrieval in [the Bluesky docs here](https://docs.bsky.app/docs/tutorials/creating-a-post), so I won't go into any more detail about how to add it beyond saying that the response will also carry embed info for you use. There was, however, [a very helpful post](https://danielmangum.com/posts/this-website-is-hosted-on-bluesky/) from Daniel Mangum that contained the endpoints for requesting both full size and thumbnail variants of content blobs from the service using their blob reference.
+
+I have once again updated [the example HTML](/blog/assets/img/bluesky-blog-comments/bluesky_blog_comments_example.html) to include the code for displaying embedded images, excluding link previews because that's probably unnecessary for the purposes of a blog site.
+
+I really think (and hope) this is the last thing I'm going to add to the site comments system for now because I have so many other _game related_ things to be doing instead!
