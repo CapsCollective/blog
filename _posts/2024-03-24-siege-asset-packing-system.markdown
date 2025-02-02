@@ -2,7 +2,7 @@
 layout: post
 title:  "The fruits and folly of implementing an asset packing system in C++"
 date:   2024-03-24
-categories: c++ packaging buildsystem siege
+categories: c++ packaging buildsystem
 author: Jonathan Moallem
 author-link: http://jonjondev.com
 social_links:
